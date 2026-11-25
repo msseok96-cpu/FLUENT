@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f9fbf9">
+  <title>FLUENT | Practice Makes Fluent</title>
+  <meta name="description" content="FLUENT teaches looped models to use earlier predictions through practice. Watch two real-robot pick-and-place runs side by side.">
+  <link rel="stylesheet" href="style.css">
+  <script src="player.js" defer></script>
+</head>
+<body id="top">
+  <a class="skip" href="#demo">Skip to robot comparison</a>
+  <header><div class="bar">
+    <a class="wordmark" href="#top"><i aria-hidden="true"></i>FLUENT</a>
+    <nav aria-label="Main navigation"><a href="#demo">Demo</a><a href="#method">Method</a><a href="#results">Results</a><a class="paper-link" href="paper.pdf">Paper <small>PDF</small></a></nav>
+  </div></header>
+  <main>
+    <section class="hero" aria-labelledby="title">
+      <h1 id="title">Practice Makes <em>Fluent</em></h1>
+      <p class="subtitle">Learning to Use Earlier Predictions in Looped Models</p>
+      <p class="authors"><a href="https://openreview.net/profile?id=~Minseok_Seo1">Minseok Seo<sup>†</sup></a><a href="https://openreview.net/profile?id=~Hee-Seon_Kim1">Hee-Seon Kim<sup>†</sup></a><a href="https://openreview.net/profile?id=~Changick_Kim1">Changick Kim</a></p>
+      <p class="affil">School of Electrical Engineering, KAIST</p>
+      <p class="equal">† Equal contribution</p>
+    </section>
+    <section id="demo" class="section demo">
+      <div class="section-head"><div><h2>Same task, two days.</h2><p>Move both green blocks from the left tray to the right. Watch what changes after practice.</p></div></div>
+      <div class="player">
+        <div class="pair">
+          <figure><figcaption><span>First day</span><span class="duration">57.3 s</span></figcaption><video id="first" controls muted playsinline preload="metadata" poster="first-day.jpg" aria-label="First-day robot pick-and-place run"><source src="first-day.mp4" type="video/mp4"><a href="first-day.mp4">Open first-day video</a></video></figure>
+          <figure><figcaption><span>Last day</span><span class="duration">29.2 s</span></figcaption><video id="last" controls muted playsinline preload="metadata" poster="last-day.jpg" aria-label="Last-day robot pick-and-place run"><source src="last-day.mp4" type="video/mp4"><a href="last-day.mp4">Open last-day video</a></video></figure>
+        </div>
+        <div id="transport" class="transport" hidden>
+          <button type="button" id="toggle"><span class="play-symbol" aria-hidden="true"></span><span id="play-label">Play both</span></button>
+          <button type="button" id="restart" aria-label="Restart both videos" title="Restart both videos">↺</button>
+          <input id="seek" type="range" min="0" max="57.3" value="0" step="0.1" aria-label="Comparison timeline in seconds">
+          <output id="clock" for="seek">0.0 / 57.3 s</output>
+        </div>
+        <p class="error" id="player-error" role="status" hidden></p>
+      </div>
+      <p class="caption">Two individual runs, played at their recorded speed. The shorter clip holds on its final frame while the first-day run continues.</p>
+    </section>
+    <section id="method" class="section reading">
+      <h2>How practice changes the loop</h2>
+      <p class="lead">A looped model can revise its prediction several times before it acts. FLUENT uses the model’s own final prediction to teach earlier loops, then learns when those early predictions are ready to use.</p>
+      <figure class="diagram"><a href="method.png" aria-label="Open the full-resolution FLUENT method diagram"><img src="method.png" width="1700" height="552" loading="lazy" alt="A frozen initial teacher supervises the model through Translate and Anchor. A separate Gate learns an exit distribution from the current predictions."></a></figure>
+      <div class="steps">
+        <div><h3>Translate</h3><p>Early loops learn to match the final prediction of the frozen initial model.</p></div>
+        <div><h3>Anchor</h3><p>The current final loop stays close to that teacher as the shared weights change.</p></div>
+        <div><h3>Gate</h3><p>The exit policy weighs disagreement with the current final loop against the cost of another iteration.</p></div>
+      </div>
+    </section>
+    <section id="results" class="section reading">
+      <h2>What changed on the robot?</h2>
+      <p class="lead">Across 100 held-out scenarios, each repeated seven times, FLUENT finished successful episodes in 31 seconds on average. The initial policy took 69 seconds.</p>
+      <div class="results-wrap"><table><thead><tr><th scope="col">Real-robot measure</th><th scope="col">Initial policy</th><th scope="col">FLUENT</th></tr></thead><tbody>
+        <tr><th scope="row">Task success</th><td>62.29%</td><td>74.57%</td></tr>
+        <tr><th scope="row">Time per successful episode</th><td>69 s</td><td>31 s</td></tr>
+        <tr><th scope="row">Action chunks per successful episode</th><td>86</td><td>52</td></tr>
+        <tr><th scope="row">Executed iterations per chunk</th><td>8.25</td><td>3.46</td></tr>
+      </tbody></table></div>
+      <details><summary>Results on LIBERO, Crafter, and language tasks</summary>
+        <ul><li><b>LIBERO.</b> Mean task success rose from 91.9% to 93.5% as executed action-head iterations fell from 6.27 to 3.97.</li>
+        <li><b>Crafter.</b> On Ouro-1.4B, mean achievements in new worlds rose from 7.19 to 8.40. Mean selected depth across seen and unseen games fell from 3.63 to 2.66.</li>
+        <li><b>Language tasks.</b> Ouro-1.4B mean accuracy was 65.3% before practice and 65.4% after. Mean selected depth fell from 3.05 to 2.48 under dense readout.</li></ul>
+      </details>
+    </section>
+  </main>
+  <footer><span>FLUENT · KAIST</span><a href="paper.pdf">Read the paper (PDF)</a><a href="#top">Back to top</a></footer>
+</body>
+</html>
