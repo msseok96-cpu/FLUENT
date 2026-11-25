@@ -7,6 +7,13 @@
   <title>FLUENT | Practice Makes Fluent</title>
   <meta name="description" content="FLUENT teaches looped models to use earlier predictions through practice. Watch two real-robot pick-and-place runs side by side.">
   <link rel="stylesheet" href="style.css">
+  <style>
+    .practice-jump { display: inline-block; margin-top: 15px; color: var(--green); font-size: .93rem; text-underline-offset: 3px; }
+    .practice-plots { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+    .practice-plots img { display: block; width: 100%; height: auto; border-radius: 12px; }
+    .film-title { font: 400 clamp(1.45rem, 3vw, 2rem)/1.2 var(--serif); margin: 28px 0 12px; }
+    .practice-film { display: block; width: min(100%, 820px); height: auto; aspect-ratio: 16 / 9; border-radius: 12px; background: #102b25; }
+  </style>
   <script src="player.js" defer></script>
 </head>
 <body id="top">
@@ -22,6 +29,7 @@
       <p class="authors"><a href="https://scholar.google.com/citations?user=nE_gu68AAAAJ&amp;hl=ko">Minseok Seo<sup>†</sup></a><a href="https://openreview.net/profile?id=~Hee-Seon_Kim1">Hee-Seon Kim<sup>†</sup></a><a href="https://openreview.net/profile?id=~Changick_Kim1">Changick Kim</a></p>
       <p class="affil">School of Electrical Engineering, KAIST</p>
       <p class="equal">† Equal contribution</p>
+      <a class="practice-jump" href="#practice">See the practice curves and film</a>
     </section>
     <section id="demo" class="section demo">
       <div class="section-head"><div><h2>Same task, two days.</h2><p>Move both green blocks from the left tray to the right. Watch what changes after practice.</p></div></div>
@@ -39,6 +47,23 @@
         <p class="error" id="player-error" role="status" hidden></p>
       </div>
       <p class="caption">Two individual runs, played at their recorded speed. The shorter clip holds on its final frame while the first-day run continues.</p>
+    </section>
+    <section id="practice" class="section reading" aria-labelledby="practice-title">
+      <h2 id="practice-title">Crafter follows a familiar practice curve</h2>
+      <p class="lead">When people repeat a task, completion time often drops sharply at first, then more gradually. FLUENT showed a strikingly similar pattern in Crafter. Its selected loop depth fell most in the first few practice rounds, then changed more slowly.</p>
+      <figure aria-label="Human and Crafter practice curves">
+        <div class="practice-plots">
+          <img src="practice-human.png" width="1124" height="676" loading="lazy" alt="Illustration from Figure 1. Human task time drops steeply over the first attempts, then levels off.">
+          <img src="practice-crafter.png" width="1124" height="676" loading="lazy" alt="Figure 4 data. FLUENT’s mean selected loop depth in Crafter falls from 3.63 in round one to 2.78 in round two, reaching 2.40 by round ten.">
+        </div>
+        <figcaption class="caption">Figure 1 illustrates human practice. The Crafter curve uses the Ouro-1.4B measurements from Figure 4, averaged over seven runs. Shading shows one standard deviation.</figcaption>
+      </figure>
+      <h3 class="film-title">Watch FLUENT in action</h3>
+      <video id="practice-film" class="practice-film" controls playsinline preload="metadata" poster="practice-film-cover.jpg" aria-label="FLUENT research film with Korean and English on-screen captions">
+        <source src="FLUENT-practice-film.mp4" type="video/mp4">
+        <a href="FLUENT-practice-film.mp4">Open the film</a>
+      </video>
+      <p class="caption">1 min 2 s · Korean and English captions · <a href="FLUENT-practice-film.mp4" download>Download MP4</a></p>
     </section>
     <section id="method" class="section reading">
       <h2>How practice changes the loop</h2>
